@@ -33,7 +33,9 @@ class ChangeMangaCategoriesDialog<T>(bundle: Bundle? = null) :
 
         return MaterialDialog(activity!!)
                 .title(R.string.action_move_category)
-                .listItemsMultiChoice(items = categories.map { it.name }, initialSelection  = preselected.toIntArray() )
+                .listItemsMultiChoice(items = categories.map { it.name },
+                    initialSelection = preselected.toIntArray(),
+                    allowEmptySelection = true )
                 { dialog, selections, text ->
                     val newCategories = selections.map { categories[it] }
                     (targetController as? Listener)?.updateCategoriesForMangas(mangas, newCategories)
