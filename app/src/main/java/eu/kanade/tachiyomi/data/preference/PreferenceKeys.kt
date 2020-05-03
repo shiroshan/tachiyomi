@@ -147,6 +147,12 @@ object PreferenceKeys {
 
     const val alwaysShowChapterTransition = "always_show_chapter_transition"
 
+    const val similarEnabled = "pref_related_show_tab_key"
+
+    const val similarUpdateInterval = "related_update_interval"
+
+    const val similarUpdateRestriction = "related_update_restriction"
+
     @Deprecated("Use the preferences of the source")
     fun sourceUsername(sourceId: Long) = "pref_source_username_$sourceId"
 

@@ -60,6 +60,12 @@ class SettingsMainController : SettingsController() {
             onClick { navigateTo(SettingsTrackingController()) }
         }
         preference {
+            iconRes = R.drawable.ic_similar_black_24dp
+            iconTint = tintColor
+            titleRes = R.string.similar
+            onClick { navigateTo(SettingsSimilarController()) }
+        }
+        preference {
             iconRes = R.drawable.ic_backup_black_24dp
             iconTint = tintColor
             titleRes = R.string.backup

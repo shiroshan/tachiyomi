@@ -109,12 +109,12 @@
     <string name="updating_library">Updating library</string>
     <string name="selected_">Selected: %1$d</string>
     <string name="local">Local</string>
+    <string name="show_all_categories">Show all categories</string>
     <string name="remove_from_library_question">Remove from library?</string>
     <string name="library_search_hint">Search title, tags, source</string>
     <string name="library_is_empty_add_from_browse">Your library is empty, add series to your
         library from the browse tab.</string>
     <string name="no_matches_for_filters">No matches found for your current filters</string>
-    <string name="show_all_categories">Show all categories</string>
 
     <!-- Library Sort -->
     <string name="sort_by_">Sort by: %1$s</string>
@@ -372,6 +372,7 @@
     <string name="failed_to_update_cover">Failed to update cover</string>
     <string name="must_be_in_library_to_edit">Manga must be in your library to edit</string>
     <string name="remember_this_choice">Remember this choice</string>
+    <string name="tap_to_show_similar_manga">Tap here to show similar manga</string>
     <plurals name="deleted_chapters">
         <item quantity="one">A chapter has been removed from the source:\n%2$s\nDelete
             its download?</item>
@@ -466,6 +467,27 @@
     <string name="secure_screen">Secure screen</string>
     <string name="hide_tachi_from_recents">Hide Tachiyomi from the recents screen</string>
     <string name="security">Security</string>
+
+    <!-- Similar -->
+    <string name="similar">Similar manga</string>
+    <string name="similar_settings">Similar manga Settings</string>
+    <string name="similar_screen">Show Similar manga</string>
+    <string name="similar_update_restriction">Similar manga update restrictions</string>
+    <string name="similar_update_restriction_summary">Update only when the conditions are met</string>
+    <string name="similar_loading_percent">Updating similar manga (%1$d / %2$d updated)</string>
+    <string name="similar_loading_complete">Updating similar manga complete</string>
+    <string name="similar_loading_complete_error">Error trying to load/process similar manga</string>
+    <string name="similar_loading_progress_start">Downloading similar manga data file…</string>
+    <string name="similar_screen_summary_message">
+        This is a feature where one can get manga recommendations.
+        This is a recommendation system outside of MangaDex, and works by matching by genres,
+        demographics, content type, themes, and then using term frequency–inverse document frequency (Tfidf) to get the
+        similarity of two manga\'s descriptions. When enabled this file will download immediately!!
+        Then auto download a refreshed file every 3 day. The file is about 20mb in size.
+    </string>
+    <string name="similar_credit_message">
+        For more information and to view the source code:\n%s
+    </string>
 
     <!-- Backup -->
     <string name="backup">Backup</string>

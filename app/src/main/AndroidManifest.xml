@@ -16,7 +16,7 @@
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
 
     <application
-        android:name=".App"
+        android:name="eu.kanade.tachiyomi.App"
         android:allowBackup="true"
         android:fullBackupContent="@xml/backup_rules"
         android:hasFragileUserData="true"
@@ -30,7 +30,7 @@
         android:theme="@style/Theme.Tachiyomi"
         android:networkSecurityConfig="@xml/network_security_config">
         <activity
-            android:name=".ui.main.MainActivity"
+            android:name="eu.kanade.tachiyomi.ui.main.MainActivity"
             android:windowSoftInputMode="adjustPan"
             android:theme="@style/Theme.Splash">
             <!--android:label="@string/app_short_name"-->
@@ -43,7 +43,7 @@
             <meta-data android:name="android.app.shortcuts" android:resource="@xml/shortcuts"/>
         </activity>
         <activity
-            android:name=".ui.main.SearchActivity"
+            android:name="eu.kanade.tachiyomi.ui.main.SearchActivity"
             android:theme="@style/Theme.Splash">
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
@@ -59,18 +59,18 @@
             <meta-data android:name="android.app.shortcuts" android:resource="@xml/shortcuts"/>
         </activity>
         <activity
-            android:name=".ui.reader.ReaderActivity" />
+            android:name="eu.kanade.tachiyomi.ui.reader.ReaderActivity" />
         <activity
-            android:name=".ui.webview.WebViewActivity"
+            android:name="eu.kanade.tachiyomi.ui.webview.WebViewActivity"
             android:configChanges="uiMode|orientation|screenSize"/>
         <activity
-            android:name=".ui.security.BiometricActivity" />
+            android:name="eu.kanade.tachiyomi.ui.security.BiometricActivity" />
         <activity
-            android:name=".widget.CustomLayoutPickerActivity"
+            android:name="eu.kanade.tachiyomi.widget.CustomLayoutPickerActivity"
             android:label="@string/app_name"
             android:theme="@style/FilePickerTheme" />
         <activity
-            android:name=".ui.setting.track.AnilistLoginActivity"
+            android:name="eu.kanade.tachiyomi.ui.setting.track.AnilistLoginActivity"
             android:label="Anilist">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
@@ -84,7 +84,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.setting.track.ShikimoriLoginActivity"
+            android:name="eu.kanade.tachiyomi.ui.setting.track.ShikimoriLoginActivity"
             android:label="Shikimori">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
@@ -98,7 +98,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.setting.track.BangumiLoginActivity"
+            android:name="eu.kanade.tachiyomi.ui.setting.track.BangumiLoginActivity"
             android:label="Bangumi">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
@@ -113,7 +113,7 @@
         </activity>
 
         <activity
-            android:name=".extension.util.ExtensionInstallActivity"
+            android:name="eu.kanade.tachiyomi.extension.util.ExtensionInstallActivity"
             android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
 
         <activity
@@ -134,27 +134,27 @@
         </provider>
 
         <receiver
-            android:name=".data.notification.NotificationReceiver"
+            android:name="eu.kanade.tachiyomi.data.notification.NotificationReceiver"
             android:exported="false" />
 
         <service
-            android:name=".data.library.LibraryUpdateService"
+            android:name="eu.kanade.tachiyomi.data.library.LibraryUpdateService"
             android:exported="false" />
 
         <service
-            android:name=".data.download.DownloadService"
+            android:name="eu.kanade.tachiyomi.data.download.DownloadService"
             android:exported="false" />
 
         <service
-            android:name=".data.updater.UpdaterService"
+            android:name="eu.kanade.tachiyomi.data.updater.UpdaterService"
             android:exported="false" />
 
         <service
-            android:name=".data.backup.BackupCreateService"
+            android:name="eu.kanade.tachiyomi.data.backup.BackupCreateService"
             android:exported="false"/>
 
         <service
-            android:name=".data.backup.BackupRestoreService"
+            android:name="eu.kanade.tachiyomi.data.backup.BackupRestoreService"
             android:exported="false"/>
 
     </application>

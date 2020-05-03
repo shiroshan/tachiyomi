@@ -73,7 +73,7 @@ class SettingsAboutController : SettingsController() {
         }
         preference {
             title = "Github"
-            val url = "https://github.com/Jays2Kings/tachiyomiJ2K"
+            val url = "https://github.com/shiroshan/tachiyomi"
             summary = url
             onClick {
                 val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
@@ -87,9 +87,9 @@ class SettingsAboutController : SettingsController() {
                     val intent = Intent(
                         Intent.ACTION_VIEW, Uri.parse(
                             if (BuildConfig.DEBUG) {
-                                "https://github.com/Jays2Kings/tachiyomiJ2K/commits/master"
+                                "https://github.com/shiroshan/tachiyomi/commits/master"
                             } else {
-                                "https://github.com/Jays2Kings/tachiyomiJ2K/releases/tag/v${BuildConfig.VERSION_NAME}"
+                                "https://github.com/shiroshan/tachiyomi/releases/tag/v${BuildConfig.VERSION_NAME}"
                             }
                         )
                     )

@@ -234,6 +234,9 @@ class NotificationReceiver : BroadcastReceiver() {
         // Value containing notification id.
         private const val EXTRA_NOTIFICATION_ID = "$ID.$NAME.NOTIFICATION_ID"
 
+        // Called to cancel library update.
+        private const val ACTION_CANCEL_SIMILAR_UPDATE = "$ID.$NAME.CANCEL_SIMILAR_UPDATE"
+
         // Value containing group id.
         private const val EXTRA_GROUP_ID = "$ID.$NAME.EXTRA_GROUP_ID"
 
@@ -430,7 +433,18 @@ class NotificationReceiver : BroadcastReceiver() {
             }
             return PendingIntent.getActivity(context, 0, toLaunch, 0)
         }
-
+        /**
+         * Returns [PendingIntent] that starts a service which stops the similar update
+         *
+         * @param context context of application
+         * @return [PendingIntent]
+         */
+        internal fun cancelSimilarUpdatePendingBroadcast(context: Context): PendingIntent {
+            val intent = Intent(context, NotificationReceiver::class.java).apply {
+                action = ACTION_CANCEL_SIMILAR_UPDATE
+            }
+            return PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
+        }
         /**
          * Returns [PendingIntent] that marks a chapter as read and deletes it if preferred
          *

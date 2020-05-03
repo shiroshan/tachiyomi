@@ -17,13 +17,7 @@ import eu.kanade.tachiyomi.data.database.models.Manga
 import eu.kanade.tachiyomi.data.database.models.MangaCategory
 import eu.kanade.tachiyomi.data.database.models.SearchMetadata
 import eu.kanade.tachiyomi.data.database.models.Track
-import eu.kanade.tachiyomi.data.database.queries.CategoryQueries
-import eu.kanade.tachiyomi.data.database.queries.ChapterQueries
-import eu.kanade.tachiyomi.data.database.queries.HistoryQueries
-import eu.kanade.tachiyomi.data.database.queries.MangaCategoryQueries
-import eu.kanade.tachiyomi.data.database.queries.MangaQueries
-import eu.kanade.tachiyomi.data.database.queries.SearchMetadataQueries
-import eu.kanade.tachiyomi.data.database.queries.TrackQueries
+import eu.kanade.tachiyomi.data.database.queries.*
 import io.requery.android.database.sqlite.RequerySQLiteOpenHelperFactory
 
 /**
@@ -31,7 +25,7 @@ import io.requery.android.database.sqlite.RequerySQLiteOpenHelperFactory
  */
 open class DatabaseHelper(context: Context) :
 MangaQueries, ChapterQueries, TrackQueries, CategoryQueries, MangaCategoryQueries,
-    HistoryQueries, SearchMetadataQueries {
+    HistoryQueries, SearchMetadataQueries, SimilarQueries {
 
     private val configuration = SupportSQLiteOpenHelper.Configuration.builder(context)
         .name(DbOpenCallback.DATABASE_NAME)

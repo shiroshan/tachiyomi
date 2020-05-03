@@ -2,7 +2,6 @@ package eu.kanade.tachiyomi.widget
 
 import android.view.View
 import android.view.ViewGroup
-import androidx.drawerlayout.widget.DrawerLayout
 
 class DrawerSwipeCloseListener(
     private val drawer: androidx.drawerlayout.widget.DrawerLayout,

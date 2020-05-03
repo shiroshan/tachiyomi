@@ -34,7 +34,7 @@ android {
     defaultConfig {
         minSdkVersion(23)
         targetSdkVersion(29)
-        applicationId = "eu.kanade.tachiyomi"
+        applicationId = "eu.kanade.tachiyomiS"
         versionCode = 63
         versionName = "1.0.2"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"

@@ -45,10 +45,20 @@ object Notifications {
     const val CHANNEL_UPDATES_TO_EXTS = "updates_ext_channel"
     const val ID_UPDATES_TO_EXTS = -401
 
+    /**
+     * Notification channel and ids used for backup and restore.
+     */
     const val CHANNEL_RESTORE = "backup_restore_channel"
     const val ID_RESTORE_PROGRESS = -501
     const val ID_RESTORE_COMPLETE = -502
     const val ID_RESTORE_ERROR = -503
+
+    /**
+     * Notification channel and ids used for similar manga.
+     */
+    const val CHANNEL_SIMILAR = "similar_channel"
+    const val ID_SIMILAR_PROGRESS = -601
+    const val ID_SIMILAR_COMPLETE = -602
 
     /**
      * Creates the notification channels introduced in Android Oreo.

@@ -273,4 +273,8 @@ class PreferencesHelper(val context: Context) {
     fun shownDownloadQueueTutorial() = flowPrefs.getBoolean("shown_download_queue", false)
 
     fun shownLongPressCategoryTutorial() = flowPrefs.getBoolean("shown_long_press_category", false)
+
+    fun similarEnabled() = prefs.getBoolean(Keys.similarEnabled, false)
+
+    fun similarUpdateRestriction() = prefs.getStringSet(Keys.similarUpdateRestriction, emptySet())
 }
