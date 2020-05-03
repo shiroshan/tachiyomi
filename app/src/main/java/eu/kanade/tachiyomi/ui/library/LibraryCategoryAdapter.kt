@@ -1,5 +1,6 @@
 package eu.kanade.tachiyomi.ui.library
 
+import android.os.Build
 import eu.davidea.flexibleadapter.FlexibleAdapter
 import eu.davidea.flexibleadapter.items.IFlexible
 import eu.kanade.tachiyomi.R
@@ -20,8 +21,8 @@ import kotlin.math.max
  *
  * @param view the fragment containing this adapter.
  */
-class LibraryCategoryAdapter(val libraryListener: LibraryListener) :
-        FlexibleAdapter<IFlexible<*>>(null, libraryListener, true) {
+class LibraryCategoryAdapter(val controller: LibraryController) :
+        FlexibleAdapter<IFlexible<*>>(null, controller, true) {
 
     init {
         setDisplayHeadersAtStartUp(true)
@@ -30,6 +31,8 @@ class LibraryCategoryAdapter(val libraryListener: LibraryListener) :
      * The list of manga in this category.
      */
     private var mangas: List<LibraryItem> = emptyList()
+
+    val libraryListener: LibraryListener = controller
 
     /**
      * Sets a list of manga in the adapter.
@@ -96,14 +99,19 @@ class LibraryCategoryAdapter(val libraryListener: LibraryListener) :
         val preferences: PreferencesHelper by injectLazy()
         val db: DatabaseHelper by injectLazy()
         if (position == itemCount - 1) return "-"
-        val sorting = if (preferences.hideCategories().getOrDefault())
-            preferences.hideCategories().getOrDefault()
-        else (headerItems.firstOrNull() as? LibraryHeaderItem)?.category?.sortingMode()
-        ?: LibrarySort.DRAG_AND_DROP
+        val sorting = if (!preferences.showAllCategories().get()) {
+            controller.presenter.getCurrentCategory()?.sortingMode() ?: LibrarySort.DRAG_AND_DROP
+        } else if (preferences.hideCategories().getOrDefault()) {
+            preferences.librarySortingMode().getOrDefault()
+        } else {
+            (headerItems.firstOrNull() as? LibraryHeaderItem)?.category?.sortingMode()
+                ?: LibrarySort.DRAG_AND_DROP
+        }
         return when (val item: IFlexible<*>? = getItem(position)) {
             is LibraryHeaderItem ->
-                if (preferences.hideCategories().getOrDefault() || item.category.id == 0) null
-                else item.category.name.first().toString() +
+                if (preferences.hideCategories().getOrDefault() || item.category.id == 0 ||
+                    !preferences.showAllCategories().get()) null
+                else getFirstChar(item.category.name) +
                     "\u200B".repeat(max(0, item.category.order))
             is LibraryItem -> {
                 when (sorting) {
@@ -122,11 +130,11 @@ class LibraryCategoryAdapter(val libraryListener: LibraryListener) :
                     }
                     LibrarySort.TOTAL -> {
                         val unread = item.chapterCount
-                        (unread / 100).toString()
+                        getShortRange(unread)
                     }
                     LibrarySort.UNREAD -> {
                         val unread = item.manga.unread
-                        if (unread > 0) (unread / 100).toString()
+                        if (unread > 0) getShortRange(unread)
                         else "R"
                     }
                     LibrarySort.LATEST_CHAPTER -> {
@@ -154,8 +162,7 @@ class LibraryCategoryAdapter(val libraryListener: LibraryListener) :
 
     private fun getFirstLetter(name: String): String {
         val letter = name.firstOrNull() ?: '#'
-        return if (letter.isLetter()) letter.toString()
-            .toUpperCase(Locale.ROOT) else "#"
+        return if (letter.isLetter()) getFirstChar(name) else "#"
     }
 
     override fun onCreateBubbleText(position: Int): String {
@@ -168,13 +175,15 @@ class LibraryCategoryAdapter(val libraryListener: LibraryListener) :
                 else recyclerView.context.getString(R.string.top)
             is LibraryItem -> {
                 if (iFlexible.manga.isBlank()) ""
-                else when (preferences.librarySortingMode().getOrDefault()) {
+                else when (if (!preferences.showAllCategories().get()) {
+                    controller.presenter.getCurrentCategory()?.sortingMode() ?: LibrarySort.DRAG_AND_DROP
+                } else preferences.librarySortingMode().getOrDefault()) {
                     LibrarySort.DRAG_AND_DROP -> {
                         if (!preferences.hideCategories().getOrDefault()) {
                             val title = iFlexible.manga.title
-                            if (preferences.removeArticles().getOrDefault()) title.removeArticles()
-                                .substring(0, 1).toUpperCase(Locale.US)
-                            else title.substring(0, 1).toUpperCase(Locale.US)
+                            if (preferences.removeArticles().getOrDefault())
+                                getFirstChar(title.removeArticles())
+                            else getFirstChar(title)
                         } else {
                             val category = db.getCategoriesForManga(iFlexible.manga)
                                 .executeAsBlocking().firstOrNull()?.name
@@ -215,18 +224,46 @@ class LibraryCategoryAdapter(val libraryListener: LibraryListener) :
         }
     }
 
+    private fun getFirstChar(string: String): String {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            val chars = string.codePoints().toArray().firstOrNull() ?: return ""
+            val char = Character.toChars(chars)
+            return String(char).toUpperCase(Locale.US)
+        } else {
+            return string.toCharArray().firstOrNull()?.toString()?.toUpperCase(Locale.US) ?: ""
+        }
+    }
+
+    private fun getShortRange(value: Int): String {
+        return when (value) {
+            1 -> "1"
+            2 -> "2"
+            3 -> "3"
+            4 -> "4"
+            5 -> "5"
+            in 6..10 -> "6"
+            in 11..50 -> "10"
+            in 51..100 -> "50"
+            in 101..500 -> "1+"
+            in 499..899 -> "4+"
+            in 901..Int.MAX_VALUE -> "9+"
+            else -> "0"
+        }
+    }
+
     private fun getRange(value: Int): String {
         return when (value) {
-            in 1..99 -> "< 100"
-            in 100..199 -> "100-199"
-            in 200..299 -> "200-299"
-            in 300..399 -> "300-399"
-            in 400..499 -> "400-499"
-            in 500..599 -> "500-599"
-            in 600..699 -> "600-699"
-            in 700..799 -> "700-799"
-            in 800..899 -> "800-899"
-            in 900..Int.MAX_VALUE -> "900+"
+            1 -> "1"
+            2 -> "2"
+            3 -> "3"
+            4 -> "4"
+            5 -> "5"
+            in 6..10 -> "6-10"
+            in 11..50 -> "11-50"
+            in 51..100 -> "51-100"
+            in 101..500 -> "100-500"
+            in 499..899 -> "499-900"
+            in 901..Int.MAX_VALUE -> "900+"
             else -> "None"
         }
     }

@@ -175,7 +175,7 @@ class PreferencesHelper(val context: Context) {
 
     fun libraryLayout() = rxPrefs.getInteger(Keys.libraryLayout, 1)
 
-    fun gridSize() = rxPrefs.getInteger(Keys.gridSize, 1)
+    fun gridSize() = rxPrefs.getInteger(Keys.gridSize, 2)
 
     fun alwaysShowSeeker() = rxPrefs.getBoolean("always_show_seeker", false)
 
@@ -263,10 +263,14 @@ class PreferencesHelper(val context: Context) {
 
     fun deleteRemovedChapters() = flowPrefs.getInt(Keys.deleteRemovedChapters, 0)
 
+    fun showAllCategories() = flowPrefs.getBoolean("show_all_categories", true)
+
     // Tutorial preferences
     fun shownFilterTutorial() = flowPrefs.getBoolean("shown_filter_tutorial", false)
 
     fun shownChapterSwipeTutorial() = flowPrefs.getBoolean("shown_swipe_tutorial", false)
 
     fun shownDownloadQueueTutorial() = flowPrefs.getBoolean("shown_download_queue", false)
+
+    fun shownLongPressCategoryTutorial() = flowPrefs.getBoolean("shown_long_press_category", false)
 }

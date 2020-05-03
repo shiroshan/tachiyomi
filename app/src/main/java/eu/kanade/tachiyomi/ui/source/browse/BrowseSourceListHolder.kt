@@ -49,6 +49,7 @@ class BrowseSourceListHolder(private val view: View, adapter: FlexibleAdapter<IF
                 .load(manga)
                 .diskCacheStrategy(DiskCacheStrategy.DATA)
                 .dontAnimate()
+                .centerCrop()
                 .placeholder(android.R.color.transparent)
                 .transition(DrawableTransitionOptions.withCrossFade())
                 .into(StateImageViewTarget(cover_thumbnail, progress))

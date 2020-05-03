@@ -12,6 +12,7 @@ import eu.kanade.tachiyomi.util.system.dpToPx
 import eu.kanade.tachiyomi.util.view.gone
 import eu.kanade.tachiyomi.util.view.updateLayoutParams
 import eu.kanade.tachiyomi.util.view.visible
+import eu.kanade.tachiyomi.util.view.visibleIf
 import kotlinx.android.synthetic.main.manga_list_item.*
 import kotlinx.android.synthetic.main.manga_list_item.view.*
 import kotlinx.android.synthetic.main.unread_download_badge.*
@@ -33,7 +34,6 @@ class LibraryListHolder(
 ) : LibraryHolder(view, adapter) {
 
     init {
-        play_layout.setOnClickListener { playButtonClicked() }
         badge_view?.updateLayoutParams<ViewGroup.MarginLayoutParams> {
             marginEnd = (if (padEnd) 22 else 12).dpToPx
         }
@@ -51,6 +51,9 @@ class LibraryListHolder(
         constraint_layout.minHeight = 56.dpToPx
         if (item.manga.isBlank()) {
             constraint_layout.minHeight = 0
+            constraint_layout.updateLayoutParams<ViewGroup.MarginLayoutParams> {
+                height = ViewGroup.MarginLayoutParams.WRAP_CONTENT
+            }
             if (item.manga.status == -1) {
                 title.text = null
                 title.gone()
@@ -59,10 +62,12 @@ class LibraryListHolder(
             title.textAlignment = View.TEXT_ALIGNMENT_CENTER
             card.gone()
             badge_view.gone()
-            play_layout.gone()
             padding.gone()
             subtitle.gone()
             return
+        }
+        constraint_layout.updateLayoutParams<ViewGroup.MarginLayoutParams> {
+            height = 52.dpToPx
         }
         padding.visible()
         card.visible()
@@ -73,27 +78,23 @@ class LibraryListHolder(
         setUnreadBadge(badge_view, item)
 
         subtitle.text = item.manga.author?.trim()
-        subtitle.visibility = if (!item.manga.author.isNullOrBlank()) View.VISIBLE
-        else View.GONE
-
-        setReadingButton(item)
+        title.post {
+            if (title.text == item.manga.title) {
+                subtitle.visibleIf(title.lineCount == 1 && !item.manga.author.isNullOrBlank())
+            }
+        }
 
         // Update the cover.
         if (item.manga.thumbnail_url == null) Glide.with(view.context).clear(cover_thumbnail)
         else {
             val id = item.manga.id ?: return
-            val height = itemView.context.resources.getDimensionPixelSize(R.dimen
-                .material_component_lists_single_line_with_avatar_height)
+
             GlideApp.with(view.context).load(item.manga)
                 .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
                 .signature(ObjectKey(MangaImpl.getLastCoverFetch(id).toString()))
-                .override(height)
+                .centerCrop()
                 .into(cover_thumbnail)
         }
-    }
-
-    private fun playButtonClicked() {
-        adapter.libraryListener.startReading(adapterPosition)
     }
 
     override fun onActionStateChanged(position: Int, actionState: Int) {
